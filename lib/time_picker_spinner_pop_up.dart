@@ -40,10 +40,10 @@ class TimePickerSpinnerPopUp extends StatefulWidget {
   final double? paddingHorizontal;
 
   @override
-  _TimePickerSpinnerPopUpState createState() => _TimePickerSpinnerPopUpState();
+  TimePickerSpinnerPopUpState createState() => TimePickerSpinnerPopUpState();
 }
 
-class _TimePickerSpinnerPopUpState extends State<TimePickerSpinnerPopUp>
+class TimePickerSpinnerPopUpState extends State<TimePickerSpinnerPopUp>
     with SingleTickerProviderStateMixin {
   RenderBox? _childBox;
   OverlayEntry? _overlayEntry;
@@ -73,7 +73,9 @@ class _TimePickerSpinnerPopUpState extends State<TimePickerSpinnerPopUp>
 
     _colorTween = Tween(begin: 0, end: 1);
     _animationController = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 150));
+      vsync: this,
+      duration: const Duration(milliseconds: 150),
+    );
     _animation = _colorTween.animate(_animationController);
   }
 
@@ -129,33 +131,39 @@ class _TimePickerSpinnerPopUpState extends State<TimePickerSpinnerPopUp>
         break;
     }
 
-    return InkWell(
-      onTap: () {
+    return CupertinoButton(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 4,
+      ),
+      onPressed: () {
         if (widget.pressType == PressType.singlePress) {
           _controller?.showMenu();
         }
       },
-      onLongPress: () {
-        if (widget.pressType == PressType.longPress) {
-          _controller?.showMenu();
-        }
-      },
+      // onLongPress: () {
+      //   if (widget.pressType == PressType.longPress) {
+      //     _controller?.showMenu();
+      //   }
+      // },
       child: Container(
         decoration: BoxDecoration(
-          border: Border.all(color: const Color(0xFFB3B5B7), width: 0.5),
+          // border: Border.all(
+          //   color: const Color(0xFFB3B5B7),
+          //   width: 0.5,
+          // ),
           borderRadius: BorderRadius.circular(10),
         ),
         padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Image.asset(
-              iconAssets,
-              height: 18,
-              width: 18,
-              color: const Color(0xFF676B6E),
-            ),
-            const SizedBox(width: 8),
+            // Image.asset(
+            //   iconAssets,
+            //   height: 18,
+            //   width: 18,
+            //   color: const Color(0xFF676B6E),
+            // ),
+            // const SizedBox(width: 8),
             Text(
               time,
               style: const TextStyle(
@@ -198,7 +206,7 @@ class _TimePickerSpinnerPopUpState extends State<TimePickerSpinnerPopUp>
 
         Widget menu = Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(12),
             color: Colors.white,
             boxShadow: [
               BoxShadow(
@@ -209,9 +217,6 @@ class _TimePickerSpinnerPopUpState extends State<TimePickerSpinnerPopUp>
               )
             ],
           ),
-          // constraints: const BoxConstraints(
-          //   minWidth: 150,
-          // ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -220,12 +225,13 @@ class _TimePickerSpinnerPopUpState extends State<TimePickerSpinnerPopUp>
                 child: CupertinoTheme(
                   data: const CupertinoThemeData(
                     textTheme: CupertinoTextThemeData(
-                        dateTimePickerTextStyle: TextStyle(
-                      fontSize: 16,
-                      fontStyle: FontStyle.normal,
-                      fontWeight: FontWeight.w500,
-                      color: Color(0xFF1A1C1E),
-                    )),
+                      dateTimePickerTextStyle: TextStyle(
+                        fontSize: 16,
+                        fontStyle: FontStyle.normal,
+                        fontWeight: FontWeight.w500,
+                        color: Color(0xFF1A1C1E),
+                      ),
+                    ),
                   ),
                   child: SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
@@ -241,70 +247,14 @@ class _TimePickerSpinnerPopUpState extends State<TimePickerSpinnerPopUp>
                         mode: widget.mode,
                         onDateTimeChanged: (dateTime) {
                           _selectedDateTimeSpinner = dateTime;
+                          setState(() {
+                            _selectedDateTime = _selectedDateTimeSpinner;
+                          });
                         },
                       ),
                     ),
                   ),
                 ),
-              ),
-              DefaultTextStyle(
-                style: const TextStyle(decoration: TextDecoration.none),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Expanded(
-                        child: GestureDetector(
-                      onTap: () {
-                        _animationController.reverse();
-
-                        setState(() {
-                          _selectedDateTime = _selectedDateTimeSpinner;
-                        });
-
-                        Future.delayed(const Duration(milliseconds: 150), () {
-                          widget.onChange?.call(_selectedDateTime);
-                          _hideMenu();
-                        });
-                      },
-                      child: const Text(
-                        'OK',
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontStyle: FontStyle.normal,
-                          fontWeight: FontWeight.w400,
-                          color: Color(0xFF1A1C1E),
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    )),
-                    Expanded(
-                      child: GestureDetector(
-                        onTap: () {
-                          _animationController.reverse();
-
-                          _selectedDateTimeSpinner = _selectedDateTime;
-                          Future.delayed(const Duration(milliseconds: 150), () {
-                            _hideMenu();
-                          });
-                        },
-                        child: const Text(
-                          'Cancel',
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontStyle: FontStyle.normal,
-                            fontWeight: FontWeight.w400,
-                            color: Color(0xFF1A1C1E),
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(
-                height: 10,
               ),
             ],
           ),
@@ -322,7 +272,7 @@ class _TimePickerSpinnerPopUpState extends State<TimePickerSpinnerPopUp>
             double right = screenWidth -
                 (centerHorizontal +
                     (((size.width) / 2 + _paddingHorizontal) * value));
-            double? top = offset.dy - ((220 / 2) * value);
+            double? top = offset.dy - ((220) * value);
             double? bottom;
 
             if (left < 0) {
@@ -351,10 +301,11 @@ class _TimePickerSpinnerPopUpState extends State<TimePickerSpinnerPopUp>
               top: top,
               bottom: bottom,
               child: ConstrainedBox(
-                  constraints: BoxConstraints(
-                    maxHeight: 250 * value,
-                  ),
-                  child: SingleChildScrollView(child: menu)),
+                constraints: BoxConstraints(
+                  maxHeight: 250 * value,
+                ),
+                child: SingleChildScrollView(child: menu),
+              ),
             );
           },
         );
@@ -364,7 +315,16 @@ class _TimePickerSpinnerPopUpState extends State<TimePickerSpinnerPopUp>
             Positioned.fill(
               child: GestureDetector(
                 onTap: () {
-                  _controller?.hideMenu();
+                  _animationController.reverse();
+
+                  setState(() {
+                    _selectedDateTime = _selectedDateTimeSpinner;
+                  });
+
+                  Future.delayed(const Duration(milliseconds: 150), () {
+                    widget.onChange?.call(_selectedDateTime);
+                    _hideMenu();
+                  });
                 },
                 child: Container(
                   color: widget.barrierColor,
