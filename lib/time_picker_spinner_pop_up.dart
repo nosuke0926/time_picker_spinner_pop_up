@@ -51,7 +51,7 @@ class TimePickerSpinnerPopUpState extends State<TimePickerSpinnerPopUp>
 
   late AnimationController _animationController;
   late Tween<double> _colorTween;
-  late Animation<double?> _animation;
+  late Animation<double> _animation;
 
   late DateTime _selectedDateTime;
   late DateTime _selectedDateTimeSpinner;
@@ -263,7 +263,7 @@ class TimePickerSpinnerPopUpState extends State<TimePickerSpinnerPopUp>
         Widget menuWithPositioned = AnimatedBuilder(
           animation: _animation,
           builder: (BuildContext context, Widget? child) {
-            final value = _animation.value ?? 0;
+            const value = 1.0;
 
             final centerHorizontal = offset.dx + (size.width) / 2;
 
@@ -300,11 +300,14 @@ class TimePickerSpinnerPopUpState extends State<TimePickerSpinnerPopUp>
               right: right,
               top: top,
               bottom: bottom,
-              child: ConstrainedBox(
-                constraints: BoxConstraints(
-                  maxHeight: 250 * value,
+              child: FadeTransition(
+                opacity: _animation,
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(
+                    maxHeight: 250 * value,
+                  ),
+                  child: SingleChildScrollView(child: menu),
                 ),
-                child: SingleChildScrollView(child: menu),
               ),
             );
           },
