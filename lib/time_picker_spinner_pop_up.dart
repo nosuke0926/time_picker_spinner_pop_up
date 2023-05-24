@@ -24,6 +24,8 @@ class TimePickerSpinnerPopUp extends StatefulWidget {
     this.timeFormat,
     this.paddingHorizontal,
     this.timeWidgetBuilder,
+    this.backgroundColor,
+    this.dateTimePickerTextStyle,
   }) : super(key: key);
 
   final PressType pressType;
@@ -33,7 +35,7 @@ class TimePickerSpinnerPopUp extends StatefulWidget {
 
   final CupertinoDatePickerMode mode;
 
-  /// Time widget 's text style
+  /// Time widget's text style
   final TextStyle? textStyle;
 
   final Widget Function(DateTime)? timeWidgetBuilder;
@@ -42,6 +44,8 @@ class TimePickerSpinnerPopUp extends StatefulWidget {
   final DateTime? maxTime;
   final String? timeFormat;
   final double? paddingHorizontal;
+  final Color? backgroundColor;
+  final TextStyle? dateTimePickerTextStyle;
 
   @override
   TimePickerSpinnerPopUpState createState() => TimePickerSpinnerPopUpState();
@@ -212,7 +216,7 @@ class TimePickerSpinnerPopUpState extends State<TimePickerSpinnerPopUp>
         Widget menu = Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
-            color: Colors.white,
+            color: widget.backgroundColor ?? Colors.white,
             boxShadow: [
               BoxShadow(
                 color: const Color(0xFF000000).withOpacity(0.08),
@@ -228,14 +232,15 @@ class TimePickerSpinnerPopUpState extends State<TimePickerSpinnerPopUp>
               SizedBox(
                 height: 225,
                 child: CupertinoTheme(
-                  data: const CupertinoThemeData(
+                  data: CupertinoThemeData(
                     textTheme: CupertinoTextThemeData(
-                      dateTimePickerTextStyle: TextStyle(
-                        fontSize: 16,
-                        fontStyle: FontStyle.normal,
-                        fontWeight: FontWeight.w500,
-                        color: Color(0xFF1A1C1E),
-                      ),
+                      dateTimePickerTextStyle: widget.dateTimePickerTextStyle ??
+                          const TextStyle(
+                            fontSize: 16,
+                            fontStyle: FontStyle.normal,
+                            fontWeight: FontWeight.w500,
+                            color: Color(0xFF1A1C1E),
+                          ),
                     ),
                   ),
                   child: SingleChildScrollView(
