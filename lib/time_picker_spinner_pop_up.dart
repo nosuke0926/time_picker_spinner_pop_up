@@ -20,6 +20,7 @@ class TimePickerSpinnerPopUp extends StatefulWidget {
     this.minTime,
     this.maxTime,
     this.mode = CupertinoDatePickerMode.time,
+    this.textStyle,
     this.timeFormat,
     this.paddingHorizontal,
     this.timeWidgetBuilder,
@@ -31,6 +32,9 @@ class TimePickerSpinnerPopUp extends StatefulWidget {
   final void Function(DateTime)? onChange;
 
   final CupertinoDatePickerMode mode;
+
+  /// Time widget 's text style
+  final TextStyle? textStyle;
 
   final Widget Function(DateTime)? timeWidgetBuilder;
   final DateTime? initTime;
@@ -166,12 +170,13 @@ class TimePickerSpinnerPopUpState extends State<TimePickerSpinnerPopUp>
             // const SizedBox(width: 8),
             Text(
               time,
-              style: const TextStyle(
-                fontSize: 14,
-                fontStyle: FontStyle.normal,
-                fontWeight: FontWeight.w400,
-                color: Color(0xFF1A1C1E),
-              ),
+              style: widget.textStyle ??
+                  TextStyle(
+                    fontSize: 14,
+                    fontStyle: FontStyle.normal,
+                    fontWeight: FontWeight.w400,
+                    color: Theme.of(context).colorScheme.onSurface,
+                  ),
             ),
           ],
         ),
