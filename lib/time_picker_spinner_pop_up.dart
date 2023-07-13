@@ -305,18 +305,20 @@ class TimePickerSpinnerPopUpState extends State<TimePickerSpinnerPopUp>
               top = null;
             }
 
-            return Positioned(
-              left: left,
-              right: right,
-              top: top,
-              bottom: bottom,
-              child: FadeTransition(
-                opacity: _animation,
-                child: ConstrainedBox(
-                  constraints: const BoxConstraints(
-                    maxHeight: 250 * value,
+            return SafeArea(
+              child: Positioned(
+                left: left,
+                right: right,
+                top: top,
+                bottom: bottom,
+                child: FadeTransition(
+                  opacity: _animation,
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(
+                      maxHeight: 250 * value,
+                    ),
+                    child: SingleChildScrollView(child: menu),
                   ),
-                  child: SingleChildScrollView(child: menu),
                 ),
               ),
             );
