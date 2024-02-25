@@ -11,7 +11,7 @@ part 'time_picker_spinner_controller.dart';
 
 class TimePickerSpinnerPopUp extends StatefulWidget {
   const TimePickerSpinnerPopUp({
-    Key? key,
+    super.key,
     this.pressType = PressType.singlePress,
     this.controller,
     this.barrierColor = Colors.black12,
@@ -26,7 +26,7 @@ class TimePickerSpinnerPopUp extends StatefulWidget {
     this.timeWidgetBuilder,
     this.backgroundColor,
     this.dateTimePickerTextStyle,
-  }) : super(key: key);
+  });
 
   final PressType pressType;
   final Color barrierColor;
@@ -137,6 +137,13 @@ class TimePickerSpinnerPopUpState extends State<TimePickerSpinnerPopUp>
         iconAssets =
             'packages/time_picker_spinner_pop_up/assets/ic_calendar.png';
         break;
+      case CupertinoDatePickerMode.monthYear:
+        time = DateFormat(widget.timeFormat ?? 'MM/yyyy')
+            .format(_selectedDateTime);
+        iconAssets =
+            'packages/time_picker_spinner_pop_up/assets/ic_calendar.png';
+        break;
+      default:
     }
 
     return CupertinoButton(
@@ -210,6 +217,10 @@ class TimePickerSpinnerPopUpState extends State<TimePickerSpinnerPopUp>
             case CupertinoDatePickerMode.dateAndTime:
               _paddingHorizontal = 20;
               break;
+            case CupertinoDatePickerMode.monthYear:
+              _paddingHorizontal = 60;
+              break;
+            default:
           }
         }
 
@@ -352,7 +363,7 @@ class TimePickerSpinnerPopUpState extends State<TimePickerSpinnerPopUp>
       },
     );
     if (_overlayEntry != null) {
-      Overlay.of(context)!.insert(_overlayEntry!);
+      Overlay.of(context).insert(_overlayEntry!);
       _animationController.forward();
     }
   }

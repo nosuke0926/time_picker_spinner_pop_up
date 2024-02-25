@@ -8,7 +8,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   // This widget is the root of your application.
   @override
@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
+  const MyHomePage({super.key, required this.title});
 
   final String title;
 
@@ -49,8 +49,8 @@ class _MyHomePageState extends State<MyHomePage> {
             child: TimePickerSpinnerPopUp(
               mode: CupertinoDatePickerMode.date,
               initTime: DateTime.now(),
-              minTime: DateTime.now().subtract(const Duration(days: 10)),
-              maxTime: DateTime.now().add(const Duration(days: 10)),
+              // minTime: DateTime.now().subtract(const Duration(days: 10)),
+              // maxTime: DateTime.now().add(const Duration(days: 10)),
               barrierColor: Colors.black12, //Barrier Color when pop up show
               onChange: (dateTime) {
                 // Implement your logic with select dateTime
