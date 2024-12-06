@@ -1,4 +1,4 @@
-library time_picker_spinner_pop_up;
+library;
 
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
